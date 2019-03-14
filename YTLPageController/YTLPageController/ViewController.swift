@@ -28,9 +28,7 @@ class ViewController: UIViewController {
             
             CategoryManager.manager.channelListData { [weak self] (data) in
                 let vc = ContainerViewController(data: data, initialIndex: 1, menuStyle: style)
-                //vc.updateChannelListData(data: data)
-                self?.present(vc, animated: true, completion: nil)
-                //self?.navigationController?.pushViewController(vc, animated: true)
+                self?.navigationController?.pushViewController(vc, animated: true)
             }
         }
         // Do any additional setup after loading the view, typically from a nib.
