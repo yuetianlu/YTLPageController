@@ -24,7 +24,7 @@ class ViewController: UIViewController {
             style.showExtraOption = true
             style.changeLineViewColor = true
             style.hadTabbar = true
-            style.menuTop = self.topGuideHeight
+            style.menuTop = 0
             
             CategoryManager.manager.channelListData { [weak self] (data) in
                 let vc = ContainerViewController(data: data, initialIndex: 1, menuStyle: style)

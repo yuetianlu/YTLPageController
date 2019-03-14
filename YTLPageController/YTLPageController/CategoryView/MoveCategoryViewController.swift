@@ -209,7 +209,7 @@ class MoveCategoryViewController: UIViewController {
         hasChangeChannelOrder = false
         loadData()
         self.dismissClosure = dismissClosure
-        hideFrame = CGRect(x: 0.0, y: -showFrame.size.height, width: showFrame.size.width, height: showFrame.size.height)
+        hideFrame = CGRect(x: 0.0, y: -screenHeight, width: showFrame.size.width, height: showFrame.size.height)
         UIView.animate(withDuration: 0.4, animations: {
             self.view.frame = self.showFrame
             }, completion: nil)

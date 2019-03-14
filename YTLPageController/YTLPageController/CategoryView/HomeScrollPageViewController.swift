@@ -100,7 +100,7 @@ class HomeScrollPageViewController: UIViewController {
         collectStyle.headerY = menuView.frame.origin.y
         collectStyle.headerHeight = menuView.bounds.height
         collectStyle.fixItems = [0, 1]
-        collectStyle.viewFrame = CGRect(x: 0.0, y: -(screenHeight - topGuideHeight), width: view.bounds.size.width, height: screenHeight - topGuideHeight)
+        collectStyle.viewFrame = CGRect(x: 0.0, y: -screenHeight, width: view.bounds.size.width, height: screenHeight - menuView.frame.maxY)
         collectView = MoveCategoryViewController(data: titles, selectIndex: currentIndex, collectStyle: collectStyle)
         collectView.delegate = self
         addChild(collectView)
@@ -249,7 +249,7 @@ extension HomeScrollPageViewController: MenuItemViewDelegate {
     func showExtraView() {
         setRightBarMaskViewData()
         scrollView.frame = CGRect(x: 0, y: menuView.frame.maxY, width: screenWidth, height: screenHeight - menuView.frame.maxY)
-        view.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+        //view.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         headerView.isEdit = false
         UIView.animate(withDuration: 0.4, animations: {
             self.actionCanDoWhenShowExtraView()
@@ -270,7 +270,7 @@ extension HomeScrollPageViewController: MoveViewDelegate {
             self.actionCanDoWhenHideExtraView()
             }, completion: nil)
         scrollView.frame = CGRect(x: 0, y: menuView.frame.maxY, width: screenWidth, height: screenHeight - menuView.frame.maxY)
-        view.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+        //view.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         guard index < channel.count else {
             currentIndex = 0
             forbidTouchToAdjustPosition = true
@@ -560,17 +560,13 @@ class HeaderView: UIView {
     
     var  isEdit: Bool = false {
         didSet {
+            deleteButton.setTitleColor(UIColor.black, for: .normal)
+            deleteButton.layer.borderColor = UIColor.black.cgColor
             if isEdit {
                 deleteButton.setTitle("完成", for: .normal)
-                deleteButton.setTitleColor(UIColor.white, for: .normal)
-                deleteButton.layer.borderColor = UIColor.clear.cgColor
-                //gradientLayer.colors = [BasicConst.Color.Color_83C3FF.cgColor, BasicConst.Color.Color_2E79F4.cgColor]
                 titleLabel.text = "拖动排序"
             } else {
                 deleteButton.setTitle("编辑", for: .normal)
-//                deleteButton.setTitleColor(BasicConst.Color.Color_4285F4, for: .normal)
-//                deleteButton.layer.borderColor = BasicConst.Color.Color_4285F4.cgColor
-                gradientLayer.colors = [UIColor.clear.cgColor]
                 titleLabel.text = "切换频道"
             }
         }
