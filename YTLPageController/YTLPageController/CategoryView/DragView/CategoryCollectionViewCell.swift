@@ -15,15 +15,15 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel! {
         didSet {
             titleLabel.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-            titleLabel.font = BasicConst.Font.systemFont14
+            titleLabel.font = UIFont.systemFont(ofSize: 14)
             titleLabel.layer.cornerRadius = 4
             titleLabel.layer.masksToBounds = true
         }
     }
     
-    @IBOutlet weak var iconButton: CustomeHitAreaButton! {
+    @IBOutlet weak var iconButton: UIButton! {
         didSet {
-            iconButton.hitTestEdgeInsets = UIEdgeInsets(top: -30, left: -CategoryCollectionViewCell.categoryCellWidth + 30, bottom: -35, right: -20)
+            
         }
     }
     
@@ -46,9 +46,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func setData(_ num: String, status: Bool, index: Int, currentIndex: Int, style: CollectStyle) {
         iconButton.isHidden = true
         titleLabel.backgroundColor = UIColor.black.withAlphaComponent(0.04)
-        titleLabel.textColor = BasicConst.Color.Color_262626
+        titleLabel.textColor = UIColor.gray
         if index == currentIndex {
-            titleLabel.textColor = BasicConst.Color.Color_F95355
+            titleLabel.textColor = UIColor.red
         }
         if status && style.editDelete {
             iconButton.isHidden = false
@@ -64,21 +64,13 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     func setData(_ text: String) {
         iconButton.isHidden = true
         titleLabel.backgroundColor = UIColor.black.withAlphaComponent(0.04)
-        titleLabel.textColor = BasicConst.Color.Color_262626
+        titleLabel.textColor = UIColor.gray
         titleLabel.text = text
         tagImageView.isHidden = true
     }
     
     func setHotImageView(data: CategoryBarEntity) {
-        if data.isHot {
-            tagImageView.image = UIImage(named: "tag_hot")
-            tagImageView.isHidden = false
-        } else if !data.isRead, data.isNew {
-            tagImageView.image = UIImage(named: "tag_new")
-            tagImageView.isHidden = false
-        } else {
-            tagImageView.isHidden = true
-        }
+        
     }
     
     func setBackgroundView(index: Int, style: CollectStyle) {
@@ -95,7 +87,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             borderLayer.lineWidth = 0
         }
         borderLayer.lineDashPattern = [2, 1]
-        borderLayer.strokeColor = BasicConst.Color.Color_999CA0.cgColor
+        borderLayer.strokeColor = UIColor.black.cgColor
         borderLayer.fillColor = UIColor.clear.cgColor
         titleLabel.layer.addSublayer(borderLayer)
         tagImageView.isHidden = true

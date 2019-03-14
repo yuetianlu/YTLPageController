@@ -12,7 +12,7 @@ class MiddleSelectViewCell: UICollectionViewCell {
     static let cellHeight: CGFloat = 50
     fileprivate let lineView: UIView = {
         let view = UIView()
-        view.backgroundColor = BasicConst.Color.Color_E7E7E7
+        view.backgroundColor = UIColor.gray
         return view
     }()
 
@@ -30,8 +30,8 @@ class MiddleSelectViewCell: UICollectionViewCell {
     
     var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = BasicConst.Color.Color_4F5054
-        label.font = BasicConst.Font.systemFont16
+        label.textColor = UIColor.gray
+        label.font = UIFont.systemFont(ofSize: 16)
         label.text = "点击添加更多频道"
         return label
     }()
@@ -41,28 +41,12 @@ class MiddleSelectViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        addSubview(systemButton)
-//        addSubview(industryButton)
-//        systemButton.isSelected = true
-//        industryButton.isSelected = false
-//        systemButton.addTarget(self, action: #selector(clickSystem), for: .touchUpInside)
-//        industryButton.addTarget(self, action: #selector(clickIndustry), for: .touchUpInside)
-//        systemButton.sizeToFit()
-//        systemButton.bottom = MiddleSelectViewCell.cellHeight - Constants.Layout.onePixel
-//        systemButton.right = (Constants.Layout.screenWidth - 40) / 2 - 20
-//        industryButton.sizeToFit()
-//        industryButton.left = (Constants.Layout.screenWidth - 40) / 2 + 20
-//        industryButton.bottom = systemButton.bottom
+
         addSubview(lineView)
         addSubview(titleLabel)
         titleLabel.sizeToFit()
-        titleLabel.left = 0
-        titleLabel.width = width
-        titleLabel.bottom = MiddleSelectViewCell.cellHeight - 8
-        lineView.left = 0
-        lineView.height = BasicConst.Layout.onePixel
-        lineView.width = width
-        lineView.bottom = MiddleSelectViewCell.cellHeight
+        titleLabel.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height - 8)
+        lineView.frame = CGRect(x: 0, y: self.frame.height - 1, width: self.frame.width, height: 1)
     }
     
     func clickSystem() {

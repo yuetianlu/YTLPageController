@@ -45,7 +45,6 @@ class MenuScrollView: UIView {
         view.layer.cornerRadius = 1
         return view
     }()
-    fileprivate var hotImageViewArray: [UIImageView] = [UIImageView]()
     weak var delegate: MenuItemViewDelegate?
     fileprivate var channelData: [CategoryBarEntity] = [CategoryBarEntity]()
     
@@ -94,7 +93,7 @@ class MenuScrollView: UIView {
             rightBarMaskView.frame = CGRect(x: screenWidth - extraWidth, y: 0, width: extraWidth, height: bounds.size.height)
             extraButton.frame = CGRect(x: 0, y: 0, width: extraWidth, height: bounds.size.height)
             var reddotFrame = reddot.frame
-            reddotFrame.origin.x = rightBarMaskView.width - reddotDemension - 10
+            reddotFrame.origin.x = rightBarMaskView.frame.width - reddotDemension - 10
             reddotFrame.origin.y = 10
             reddotFrame.size.width = reddotDemension
             reddotFrame.size.height = reddotDemension
@@ -109,7 +108,7 @@ class MenuScrollView: UIView {
     
     // MARK: Action
     
-    func titleLabelClick(_ tap: UITapGestureRecognizer) {
+    @objc func titleLabelClick(_ tap: UITapGestureRecognizer) {
         guard (tap.view as? UILabel) != nil else {
             return
         }
@@ -120,21 +119,13 @@ class MenuScrollView: UIView {
         delegate?.tapMenuWithIndex(index: currentIndex)
     }
     
-    func clickExtraAction() {
+    @objc func clickExtraAction() {
         delegate?.showExtraView()
     }
     
 }
 
 extension MenuScrollView {
-    
-    fileprivate func constructHotImageView(label: CustomLabel) {
-        let hotImageView = UIImageView()
-        hotImageView.contentMode = .scaleAspectFit
-        hotImageView.frame = CGRect(x: label.right - 5, y: label.top + 10, width: 24, height: 12)
-        scrollView.addSubview(hotImageView)
-        hotImageViewArray.append(hotImageView)
-    }
     
     fileprivate func constructLabels() {
         for title in titles {
@@ -146,7 +137,7 @@ extension MenuScrollView {
             label.isUserInteractionEnabled = true
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.titleLabelClick(_:)))
             label.addGestureRecognizer(tap)
-            let size = (title as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 0), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: label.font], context: nil)
+            let size = (title as NSString).boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: 0), options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: label.font], context: nil)
             titlesLabelWidth.append(size.width)
             labelArray.append(label)
             scrollView.addSubview(label)
@@ -175,9 +166,6 @@ extension MenuScrollView {
                 titleX = itemWidth * CGFloat(index) + (itemWidth - titleW) / 2
                 label.frame = CGRect(x: titleX, y: titleY, width: titleW, height: bounds.size.height)
                 scrollWidth += titleW + menuStyle.titleMargin
-                if titles.count == channelData.count {
-                    constructHotImageView(label: label)
-                }
             }
             
         } else {
@@ -190,9 +178,6 @@ extension MenuScrollView {
                 }
                 label.frame = CGRect(x: titleX, y: titleY, width: titleW, height: bounds.size.height)
                 scrollWidth += titleW + menuStyle.titleMargin
-                if titles.count == channelData.count {
-                    constructHotImageView(label: label)
-                }
             }
         }
         if menuStyle.changeTitleSize {
@@ -337,58 +322,11 @@ extension MenuScrollView {
         }
         titlesLabelWidth.removeAll()
         labelArray.removeAll()
-        hotImageViewArray.removeAll()
         titles = labelTitles
         constructLabels()
         setLabelPosition(index)
         moveToCurrentIndex(index)
     }
-    
-    func setTagState(_ data: CategoryBarEntity, index: Int) {
-        guard index >= 0 && index < hotImageViewArray.count else {
-            return
-        }
-        let hotImageView = hotImageViewArray[index]
-        if !data.isRead, data.isNew {
-            hotImageView.image = UIImage(named: "tag_new")
-            hotImageView.isHidden = false
-        } else {
-            hotImageView.isHidden = true
-        }
-    }
-    
-    func reloadHotImageViews(_ titles: [String], datas: [CategoryBarEntity]) {
-        channelData = datas
-        if titles.count == channelData.count {
-            for (index, entity) in channelData.enumerated() {
-                setTagState(entity, index: index)
-            }
-        }
-        if let data = channelData.last, data.isNew, !data.isRead {
-            scrollView.contentSize = CGSize(width: scrollerviewContentWidth + 15, height: 0)
-        }
-    }
-    
-    func didClickHotImageView(index: Int, data: CategoryBarEntity, clickClosure: (([CategoryBarEntity]) -> Void)? = nil) {
-        guard index >= 0 && index < hotImageViewArray.count else {
-            return
-        }
-        let hotImageView = hotImageViewArray[index]
-        var newData = data
-        if newData.isNew, !newData.isRead {
-            newData.isRead = true
-            hotImageView.isHidden = true
-            channelData[index] = newData
-            if let id = newData.categoryId {
-                ChannelReadState.markAsReadForNewsID(id)
-            }
-            if newData == channelData.last {
-                scrollView.contentSize = CGSize(width: scrollerviewContentWidth, height: 0)
-            }
-        }
-        clickClosure?(channelData)
-    }
-
 }
 
 protocol MenuItemViewDelegate: NSObjectProtocol {
@@ -402,19 +340,19 @@ public struct MenuStyle {
     public var titleFontSize: CGFloat = 16
     public var titleBigScale: CGFloat = 1.3
     public let titleOriginalScale: CGFloat = 1.0
-    public var normalTitleColor = BasicConst.Color.Color_999CA0
-    public var selectedTitleColor = BasicConst.Color.Color_4285F4
+    public var normalTitleColor = UIColor.gray
+    public var selectedTitleColor = UIColor.red
     public var showExtraOption: Bool = false
     public var setCenterLayout: Bool = false
     public var changeTitleSize: Bool = false
     public var showLineView: Bool = true
     public var lineViewHeight: CGFloat = 2
     public var lineViewWidth: CGFloat = 10
-    public var lineViewColor: UIColor = BasicConst.Color.Color_4285F4
+    public var lineViewColor: UIColor = UIColor.blue
     public var menuTop: CGFloat = 0
     public var menuHeight: CGFloat = 45
     public var hadTabbar: Bool = false
-    public var lineViewColors: [UIColor] = [UIColor(hex: 0x9F4DFF), BasicConst.Color.Color_4285F4, BasicConst.Color.Color_31C27C, BasicConst.Color.Color_F6A623, BasicConst.Color.Color_F95355]
+    public var lineViewColors: [UIColor] = [UIColor.red, UIColor.purple, UIColor.orange]
     public var changeLineViewColor: Bool = false
     
     public init() {

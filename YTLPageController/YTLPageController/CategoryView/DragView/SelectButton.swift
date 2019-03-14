@@ -13,7 +13,7 @@ class SelectButton: UIButton {
 
     fileprivate let lineView: UIView = {
         let view = UIView()
-        view.backgroundColor = BasicConst.Color.Color_4285F4
+        view.backgroundColor = UIColor.red
         view.layer.cornerRadius = 2
         return view
     }()
@@ -27,14 +27,14 @@ class SelectButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(lineView)
-        setTitleColor(BasicConst.Color.Color_262626, for: .normal)
-        setTitleColor(BasicConst.Color.Color_4285F4, for: .selected)
-        titleLabel?.font = BasicConst.Font.systemFont16
+        setTitleColor(UIColor.gray, for: .normal)
+        setTitleColor(UIColor.red, for: .selected)
+        titleLabel?.font = UIFont.systemFont(ofSize: 16)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        lineView.frame = CGRect(x: 0, y: height - 2, width: width, height: 2)
+        lineView.frame = CGRect(x: 0, y: self.frame.height - 2, width: self.frame.width, height: 2)
     }
     
     required init?(coder aDecoder: NSCoder) {

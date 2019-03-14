@@ -16,7 +16,6 @@ public struct CollectStyle {
     public var headerHeight: CGFloat = 45
     public var viewFrame: CGRect = CGRect.zero
     public var fixItems: [Int] = [0]
-    var selectType: ChannelType = .system
 
     public init() {
         
@@ -82,7 +81,7 @@ class MoveCategoryViewController: UIViewController {
 
         let blurEffect = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.frame.size = CGSize(width: view.width, height: view.height + 90)
+        blurView.frame.size = CGSize(width: view.frame.width, height: view.frame.height + 90)
         self.view.addSubview(blurView)
         let bgView = UIView()
         bgView.backgroundColor = UIColor(red: 253 / 255.0, green: 253 / 255.0, blue: 253 / 255.0, alpha: 0.85)
@@ -113,11 +112,11 @@ class MoveCategoryViewController: UIViewController {
         collectionview.register(MiddleSelectViewCell.self, forCellWithReuseIdentifier: "MiddleSelectViewCell")
         collectionview.delegate = self
         collectionview.dataSource = self
-        collectionview.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: collectStyle.viewFrame.height - collectStyle.headerHeight - BasicConst.Layout.adjustInsetForIPhoneX.bottom)
+        collectionview.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: collectStyle.viewFrame.height - collectStyle.headerHeight)
         return collectionview
     }
     
-    func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
         if let selectedIndexPath = collectionView?.indexPathForItem(at: gesture.location(in: collectionView)), selectedIndexPath.section == 0, clickItem {
             if clickItem {
                 delegate?.handleLongGesture()
@@ -132,11 +131,11 @@ class MoveCategoryViewController: UIViewController {
     
     func changeState(_ gesture: UIGestureRecognizer) {
         switch gesture.state {
-        case UIGestureRecognizerState.began:
+        case UIGestureRecognizer.State.began:
             gestureBegan(gesture)
-        case UIGestureRecognizerState.changed:
+        case UIGestureRecognizer.State.changed:
             gestureChanged(gesture)
-        case UIGestureRecognizerState.ended:
+        case UIGestureRecognizer.State.ended:
             gestureEnded(gesture)
         default:
             collectionView?.cancelInteractiveMovement()
@@ -217,13 +216,6 @@ class MoveCategoryViewController: UIViewController {
     }
     
     func hidden() {
-        let titleOrder = data.joined(separator: ",")
-        if collectStyle.selectType == .system {
-            TrackManager.track(event: TrackManager.Event.click, properties: ["media_event_value": "click_column_close", "columns": "\(titleOrder)"])
-        } else {
-            TrackManager.track(event: TrackManager.Event.click, properties: ["media_event_value": "click_investorchannel_done", "media_column_order": "\(titleOrder)"])
-        }
-
         if !hasFinished {
             delegate?.didFinishWithDatas(datas: data, index: currentIndex, channel: channelData)
             hasFinished = true
@@ -251,79 +243,32 @@ class MoveCategoryViewController: UIViewController {
     func clickDeleteButton(isLongPress: Bool) {
         if !clickItem {
             // 点击完成
-            let titleOrder = data.joined(separator: ",")
-            TrackManager.track(event: TrackManager.Event.editChannel, properties: ["columns": titleOrder])
-            if !channelData.isEmpty {
-                if collectStyle.selectType == .system {
-                    CategoryManager.manager.updateChannelListData(data: channelData)
-                } else {
-                    CategoryManager.manager.saveVCChannelListData(data: channelData)
-                }
-            }
+//            if !channelData.isEmpty {
+//                    CategoryManager.manager.updateChannelListData(data: channelData)
+//            }
         }
         clickItem = !clickItem
         collectionView?.reloadData()
     }
     
     fileprivate func loadData() {
-        channelDic = [:]
-        for entity in self.channelData {
-            if let id = entity.categoryId {
-                channelDic[id] = entity
-            }
-        }
-        if collectStyle.selectType == .system {
-            totalData = CategoryManager.manager.readStateTransform(CategoryManager.manager.totalChannelData)
-            totalDic = CategoryManager.manager.totalDic
-        } else {
-            totalData = CategoryManager.manager.readStateTransform(CategoryManager.manager.totalVCChannelData)
-            totalDic = CategoryManager.manager.totalVCDic
-        }
-        _ = NetworkManager.manager.request(CategoryBarAPI.categoryBar(type: collectStyle.selectType), success: { (result: ListResponse <CategoryBarEntity>,_) in
-            if result.code == 0, let datas = result.data, !datas.isEmpty {
-                if !self.channelData.isEmpty {
-                    self.unselectedData.removeAll()
-                    for item in datas {
-                        var model = item
-                        var entity: CategoryBarEntity?
-                        if let id = item.categoryId, self.channelDic[id] == nil {
-                            entity = self.totalDic[id]
-                            if entity?.publishedAt == model.publishedAt {
-                                model.isRead = entity?.isRead ?? false
-                            } else {
-                                ChannelReadState.markAsUnReadForNewsID(id)
-                                model.isRead = false
-                            }
-                            self.unselectedData.append(model)
-                        }
-                    }
-                }
-                self.collectionView?.reloadData()
-            } else {
-                self.getSystomAndIndustoryWhenFailure()
-            }
-        }, failure: { (_) in
-            self.getSystomAndIndustoryWhenFailure()
-        })
+//        channelDic = [:]
+//        for entity in self.channelData {
+//                channelDic[id] = entity
+//        }
+//        totalData = CategoryManager.manager.readStateTransform(CategoryManager.manager.totalChannelData)
+//        totalDic = CategoryManager.manager.totalDic
+//        collectionView?.reloadData()
     }
     
     fileprivate func getSystomAndIndustoryWhenFailure() {
-        unselectedData.removeAll()
-        for entity in totalData {
-            if let id = entity.categoryId, channelDic[id] == nil {
-                unselectedData.append(entity)
-            }
-        }
-        collectionView?.reloadData()
-    }
-    
-    fileprivate func hasChangeChannelListOrder() {
-        if collectStyle.selectType == .system {
-            hasChangeChannelOrder = true
-            UserDefaultManager.set(true, forKey: UserDefaultsKeys.Home.didChangeChannelListOrder)
-        } else {
-            UserDefaultManager.set(true, forKey: UserDefaultsKeys.VC.didChangeVCChannelListOrder)
-        }
+//        unselectedData.removeAll()
+//        for entity in totalData {
+//            if let id = entity.categoryId, channelDic[id] == nil {
+//                unselectedData.append(entity)
+//            }
+//        }
+//        collectionView?.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -372,15 +317,19 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
                 if channelData.isEmpty {
                     text = data[indexPath.item]
                 } else {
-                    text = channelData[indexPath.item].name ?? ""
+                    text = channelData[indexPath.item].name
                     cell.model = channelData[indexPath.item]
                     cell.setHotImageView(data: channelData[indexPath.item])
                 }
                 cell.isHidden = false
                 cell.setData(text, status: !clickItem, index: indexPath.item, currentIndex: currentIndex, style: collectStyle)
                 cell.didClickDeleteClosure = { [unowned self] (entity) in
-                    guard let selectIndex = self.channelData.index(of: entity) else {
-                        return
+                    var selectIndex = 0
+                    for (index, item) in self.channelData.enumerated() {
+                        if item.categoryId == entity.categoryId {
+                            selectIndex = index
+                            break
+                        }
                     }
                     let num = self.currentIndex - selectIndex
                     self.currentIndex = num > 0 ? self.currentIndex - 1:(num == 0 ? 0:self.currentIndex)
@@ -388,10 +337,7 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
                     self.channelData.remove(at: selectIndex)
                     self.data.remove(at: selectIndex)
                     self.unselectedData.insert(model, at: 0)
-                    if let name = model.name {
-                        TrackManager.track(event: TrackManager.Event.editChannel, properties: ["media_type": "delete", "columnname": "\(name)"])
-                    }
-                    self.hasChangeChannelListOrder()
+
                     let selectIndexPath = IndexPath(item: selectIndex, section: 0)
 
                     self.collectionView?.performBatchUpdates({
@@ -405,12 +351,12 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
         case .bottomView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCollectionViewCell", for: indexPath)
             if let cell = cell as? CategoryCollectionViewCell {
-                let text: String = unselectedData[indexPath.item].name ?? ""
+                let text: String = unselectedData[indexPath.item].name
                 cell.isHidden = false
                 cell.setData(text)
-                if !channelData.isEmpty && indexPath.item < unselectedData.count {
-                    cell.setHotImageView(data: unselectedData[indexPath.item])
-                }
+//                if !channelData.isEmpty && indexPath.item < unselectedData.count {
+//                    cell.setHotImageView(data: unselectedData[indexPath.item])
+//                }
             }
             return cell
         case .middleView:
@@ -424,7 +370,7 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
         case .topView, .bottomView:
             return CGSize(width: CategoryCollectionViewCell.categoryCellWidth, height: 52)
         case .middleView:
-            return CGSize(width: BasicConst.Layout.screenWidth - 40, height: MiddleSelectViewCell.cellHeight)
+            return CGSize(width: screenWidth - 40, height: MiddleSelectViewCell.cellHeight)
         }
     }
     
@@ -441,7 +387,6 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         if collectionView.isEqual(collectionView) {
-            hasChangeChannelListOrder()
             switch sectionTypes[sourceIndexPath.section] {
             case .topView:
                 let num = data[sourceIndexPath.item]
@@ -482,13 +427,9 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
                 return
             case .bottomView:
                 let entity = unselectedData[indexPath.item]
-                if let name = entity.name {
-                    unselectedData.remove(at: indexPath.item)
-                    channelData.append(entity)
-                    data.append(name)
-                    TrackManager.track(event: TrackManager.Event.editChannel, properties: ["media_type": "add", "columnname": "\(name)"])
-                }
-                hasChangeChannelListOrder()
+                unselectedData.remove(at: indexPath.item)
+                channelData.append(entity)
+                data.append(entity.name)
                 let toIndex = IndexPath(item: channelData.count - 1, section: 0)
                 if unselectedData.isEmpty {
                     collectionView.reloadData()

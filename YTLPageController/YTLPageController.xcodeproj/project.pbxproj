@@ -12,7 +12,6 @@
 		8C3F67902239FE9A00743EB7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F678E2239FE9A00743EB7 /* Main.storyboard */; };
 		8C3F67922239FE9D00743EB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F67912239FE9D00743EB7 /* Assets.xcassets */; };
 		8C3F67952239FE9D00743EB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F67932239FE9D00743EB7 /* LaunchScreen.storyboard */; };
-		8C3F67A9223A001D00743EB7 /* ScrollPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67A0223A001D00743EB7 /* ScrollPageViewController.swift */; };
 		8C3F67AA223A001D00743EB7 /* MenuScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67A1223A001D00743EB7 /* MenuScrollView.swift */; };
 		8C3F67AB223A001D00743EB7 /* MoveCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67A2223A001D00743EB7 /* MoveCategoryViewController.swift */; };
 		8C3F67AC223A001D00743EB7 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67A4223A001D00743EB7 /* SelectButton.swift */; };
@@ -21,6 +20,8 @@
 		8C3F67AF223A001D00743EB7 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F67A7223A001D00743EB7 /* CategoryCollectionViewCell.xib */; };
 		8C3F67B0223A001D00743EB7 /* HomeScrollPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67A8223A001D00743EB7 /* HomeScrollPageViewController.swift */; };
 		8C3F67B2223A019000743EB7 /* CategoryBarEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67B1223A019000743EB7 /* CategoryBarEntity.swift */; };
+		8C3F67B4223A067000743EB7 /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67B3223A067000743EB7 /* CategoryManager.swift */; };
+		8C3F67B6223A167E00743EB7 /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67B5223A167E00743EB7 /* ChildViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +32,6 @@
 		8C3F67912239FE9D00743EB7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C3F67942239FE9D00743EB7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C3F67962239FE9D00743EB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8C3F67A0223A001D00743EB7 /* ScrollPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollPageViewController.swift; sourceTree = "<group>"; };
 		8C3F67A1223A001D00743EB7 /* MenuScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScrollView.swift; sourceTree = "<group>"; };
 		8C3F67A2223A001D00743EB7 /* MoveCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveCategoryViewController.swift; sourceTree = "<group>"; };
 		8C3F67A4223A001D00743EB7 /* SelectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
@@ -40,6 +40,8 @@
 		8C3F67A7223A001D00743EB7 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		8C3F67A8223A001D00743EB7 /* HomeScrollPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScrollPageViewController.swift; sourceTree = "<group>"; };
 		8C3F67B1223A019000743EB7 /* CategoryBarEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBarEntity.swift; sourceTree = "<group>"; };
+		8C3F67B3223A067000743EB7 /* CategoryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
+		8C3F67B5223A167E00743EB7 /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,12 +88,13 @@
 		8C3F679F223A001D00743EB7 /* CategoryView */ = {
 			isa = PBXGroup;
 			children = (
-				8C3F67A0223A001D00743EB7 /* ScrollPageViewController.swift */,
+				8C3F67B3223A067000743EB7 /* CategoryManager.swift */,
+				8C3F67A8223A001D00743EB7 /* HomeScrollPageViewController.swift */,
+				8C3F67B1223A019000743EB7 /* CategoryBarEntity.swift */,
 				8C3F67A1223A001D00743EB7 /* MenuScrollView.swift */,
 				8C3F67A2223A001D00743EB7 /* MoveCategoryViewController.swift */,
 				8C3F67A3223A001D00743EB7 /* DragView */,
-				8C3F67A8223A001D00743EB7 /* HomeScrollPageViewController.swift */,
-				8C3F67B1223A019000743EB7 /* CategoryBarEntity.swift */,
+				8C3F67B5223A167E00743EB7 /* ChildViewController.swift */,
 			);
 			path = CategoryView;
 			sourceTree = "<group>";
@@ -179,16 +182,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C3F67B6223A167E00743EB7 /* ChildViewController.swift in Sources */,
 				8C3F67AE223A001D00743EB7 /* CategoryCollectionViewCell.swift in Sources */,
 				8C3F678D2239FE9A00743EB7 /* ViewController.swift in Sources */,
 				8C3F678B2239FE9A00743EB7 /* AppDelegate.swift in Sources */,
 				8C3F67AA223A001D00743EB7 /* MenuScrollView.swift in Sources */,
 				8C3F67AD223A001D00743EB7 /* MiddleSelectViewCell.swift in Sources */,
+				8C3F67B4223A067000743EB7 /* CategoryManager.swift in Sources */,
 				8C3F67AC223A001D00743EB7 /* SelectButton.swift in Sources */,
 				8C3F67B0223A001D00743EB7 /* HomeScrollPageViewController.swift in Sources */,
 				8C3F67AB223A001D00743EB7 /* MoveCategoryViewController.swift in Sources */,
 				8C3F67B2223A019000743EB7 /* CategoryBarEntity.swift in Sources */,
-				8C3F67A9223A001D00743EB7 /* ScrollPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
