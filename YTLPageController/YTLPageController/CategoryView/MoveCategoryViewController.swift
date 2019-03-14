@@ -213,6 +213,7 @@ class MoveCategoryViewController: UIViewController {
         UIView.animate(withDuration: 0.4, animations: {
             self.view.frame = self.showFrame
             }, completion: nil)
+        collectionView?.reloadData()
     }
     
     func hidden() {
