@@ -202,31 +202,16 @@ class HomeScrollPageViewController: UIViewController {
     }
     
     func setRightBarMaskViewUpdateState() {
-       // menuView.setRightBarMaskViewUpdateState(UserDefaultManager.manager.hasNewsChannelRecentlyDays)
+       
     }
     
     func setRightBarMaskViewData() {
-//        UserDefaultManager.manager.hasNewsChannelRecentlyDays = false
-//        CategoryManager.manager.saveChannelTotalListData()
-//        setRightBarMaskViewUpdateState()
+
     }
     
     func saveListData() {
        // CategoryManager.manager.updateChannelListData(data: channelData)
     }
-    
-    // 滑动到任意频道，首页运营位需求
-//    func slideAnyChannel(_ channelInfo: ChannelInfo) {
-//        currentIndex = channelInfo.index
-//        if !channelInfo.existInLocal {
-//            channelData = channelInfo.newData
-//            updateChannelListData(data: channelData)
-//        } else {
-//            reloadControllersWithNewData(data: channelData, index: channelInfo.index)
-//        }
-//        menuView.moveToCurrentIndex(channelInfo.index)
-//    }
-    
     // 修改过频道
     func hasChangeChannelOrder() {
         

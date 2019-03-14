@@ -2,8 +2,8 @@
 //  CategoryManager.swift
 //  Client
 //
-//  Created by BJQXDN0527 on 2017/6/23.
-//  Copyright © 2017年 36Kr. All rights reserved.
+//  Created by yuetianlu on 2019/3/14.
+//  Copyright © 2019年 yuetianlu. All rights reserved.
 //
 
 import Foundation

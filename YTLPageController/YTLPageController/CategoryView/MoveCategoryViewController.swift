@@ -253,23 +253,11 @@ class MoveCategoryViewController: UIViewController {
     }
     
     fileprivate func loadData() {
-//        channelDic = [:]
-//        for entity in self.channelData {
-//                channelDic[id] = entity
-//        }
-//        totalData = CategoryManager.manager.readStateTransform(CategoryManager.manager.totalChannelData)
-//        totalDic = CategoryManager.manager.totalDic
-//        collectionView?.reloadData()
+
     }
     
     fileprivate func getSystomAndIndustoryWhenFailure() {
-//        unselectedData.removeAll()
-//        for entity in totalData {
-//            if let id = entity.categoryId, channelDic[id] == nil {
-//                unselectedData.append(entity)
-//            }
-//        }
-//        collectionView?.reloadData()
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -355,9 +343,6 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
                 let text: String = unselectedData[indexPath.item].name
                 cell.isHidden = false
                 cell.setData(text)
-//                if !channelData.isEmpty && indexPath.item < unselectedData.count {
-//                    cell.setHotImageView(data: unselectedData[indexPath.item])
-//                }
             }
             return cell
         case .middleView:
