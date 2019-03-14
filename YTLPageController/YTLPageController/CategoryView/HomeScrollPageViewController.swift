@@ -110,10 +110,13 @@ class HomeScrollPageViewController: UIViewController {
         headerView.layer.shadowOpacity = 0.06
         headerView.layer.shadowColor = UIColor.gray.cgColor
         headerView.layer.shadowOffset = CGSize(width: 1, height: 2)
-        headerView.didClickExtraButton = { [unowned self] in
-            self.collectView.clickExtraButton()
+        headerView.didClickExtraButton = { [weak self] in
+            self?.collectView.clickExtraButton()
         }
-        headerView.didClickDeleteButton = { [unowned self] in
+        headerView.didClickDeleteButton = { [weak self] in
+            guard let self = self else {
+                return
+            }
             self.collectView.clickDeleteButton(isLongPress: false)
             self.headerView.isEdit = !self.collectView.clickItem
         }

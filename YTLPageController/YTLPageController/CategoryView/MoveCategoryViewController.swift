@@ -312,7 +312,10 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
                 }
                 cell.isHidden = false
                 cell.setData(text, status: !clickItem, index: indexPath.item, currentIndex: currentIndex, style: collectStyle)
-                cell.didClickDeleteClosure = { [unowned self] (entity) in
+                cell.didClickDeleteClosure = { [weak self] (entity) in
+                    guard let self = self else {
+                        return
+                    }
                     var selectIndex = 0
                     for (index, item) in self.channelData.enumerated() {
                         if item.categoryId == entity.categoryId {
