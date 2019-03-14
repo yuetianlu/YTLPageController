@@ -22,6 +22,7 @@
 		8C3F67B2223A019000743EB7 /* CategoryBarEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67B1223A019000743EB7 /* CategoryBarEntity.swift */; };
 		8C3F67B4223A067000743EB7 /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67B3223A067000743EB7 /* CategoryManager.swift */; };
 		8C3F67B6223A167E00743EB7 /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67B5223A167E00743EB7 /* ChildViewController.swift */; };
+		8C3F67B8223A204800743EB7 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F67B7223A204800743EB7 /* ContainerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		8C3F67B1223A019000743EB7 /* CategoryBarEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBarEntity.swift; sourceTree = "<group>"; };
 		8C3F67B3223A067000743EB7 /* CategoryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
 		8C3F67B5223A167E00743EB7 /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
+		8C3F67B7223A204800743EB7 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				8C3F679F223A001D00743EB7 /* CategoryView */,
 				8C3F678A2239FE9A00743EB7 /* AppDelegate.swift */,
 				8C3F678C2239FE9A00743EB7 /* ViewController.swift */,
+				8C3F67B7223A204800743EB7 /* ContainerViewController.swift */,
 				8C3F678E2239FE9A00743EB7 /* Main.storyboard */,
 				8C3F67912239FE9D00743EB7 /* Assets.xcassets */,
 				8C3F67932239FE9D00743EB7 /* LaunchScreen.storyboard */,
@@ -192,6 +195,7 @@
 				8C3F67AC223A001D00743EB7 /* SelectButton.swift in Sources */,
 				8C3F67B0223A001D00743EB7 /* HomeScrollPageViewController.swift in Sources */,
 				8C3F67AB223A001D00743EB7 /* MoveCategoryViewController.swift in Sources */,
+				8C3F67B8223A204800743EB7 /* ContainerViewController.swift in Sources */,
 				8C3F67B2223A019000743EB7 /* CategoryBarEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

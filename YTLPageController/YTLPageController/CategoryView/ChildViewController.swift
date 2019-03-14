@@ -12,22 +12,31 @@ class ChildViewController: UIViewController {
 
     var categoryId: Int = 0
     var categoryData: CategoryBarEntity = CategoryBarEntity()
-    
+    let label: UILabel = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.addSubview(label)
+        label.frame = CGRect(x: 0, y: 300, width: screenWidth, height: 100)
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.black
+        label.text = categoryData.name
+        
+        view.backgroundColor = UIColor.randomColor
         // Do any additional setup after loading the view.
     }
-    
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension UIColor {
+    //返回随机颜色
+    open class var randomColor:UIColor{
+        get
+        {
+            let red = CGFloat(arc4random()%256)/255.0
+            let green = CGFloat(arc4random()%256)/255.0
+            let blue = CGFloat(arc4random()%256)/255.0
+            return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+        }
     }
-    */
-
 }
