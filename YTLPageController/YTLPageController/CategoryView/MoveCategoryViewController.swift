@@ -22,6 +22,8 @@ public struct CollectStyle {
     }
 }
 
+public let animateTime = 0.4
+
 class MoveCategoryViewController: UIViewController {
     
     var collectStyle: CollectStyle = CollectStyle()
@@ -54,7 +56,6 @@ class MoveCategoryViewController: UIViewController {
         case bottomView
     }
     fileprivate let sectionTypes: [SectionType] = [.topView, .middleView, .bottomView]
-    fileprivate var hasFinished: Bool = false
     fileprivate var totalData: [CategoryBarEntity] = [CategoryBarEntity]()
     fileprivate var channelDic: [Int: CategoryBarEntity] = [:]
     fileprivate var unselectedData: [CategoryBarEntity] = [CategoryBarEntity]()
@@ -109,7 +110,7 @@ class MoveCategoryViewController: UIViewController {
         collectionview.backgroundColor = UIColor.clear
         collectionview.showsHorizontalScrollIndicator = false
         collectionview.register(UINib(nibName: "CategoryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CategoryCollectionViewCell")
-        collectionview.register(MiddleSelectViewCell.self, forCellWithReuseIdentifier: "MiddleSelectViewCell")
+        collectionview.register(MiddleSelectViewCell.self, forCellWithReuseIdentifier: MiddleSelectViewCell.cellIdentifier())
         collectionview.delegate = self
         collectionview.dataSource = self
         collectionview.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: collectStyle.viewFrame.height - collectStyle.headerHeight)
@@ -129,7 +130,7 @@ class MoveCategoryViewController: UIViewController {
 
     }
     
-    func changeState(_ gesture: UIGestureRecognizer) {
+    fileprivate func changeState(_ gesture: UIGestureRecognizer) {
         switch gesture.state {
         case UIGestureRecognizer.State.began:
             gestureBegan(gesture)
@@ -142,7 +143,7 @@ class MoveCategoryViewController: UIViewController {
         }
     }
     
-    func gestureBegan(_ gesture: UIGestureRecognizer) {
+    fileprivate func gestureBegan(_ gesture: UIGestureRecognizer) {
         if let selectedIndexPath = collectionView?.indexPathForItem(at: gesture.location(in: collectionView)), selectedIndexPath.section == 0, !collectStyle.fixItems.contains(selectedIndexPath.item) {
             originalIndex = selectedIndexPath
             if let cell = collectionView?.cellForItem(at: selectedIndexPath), let cateCell = cell as? CategoryCollectionViewCell {
@@ -158,7 +159,7 @@ class MoveCategoryViewController: UIViewController {
         }
     }
     
-    func gestureChanged(_ gesture: UIGestureRecognizer) {
+    fileprivate func gestureChanged(_ gesture: UIGestureRecognizer) {
         if !hasNewCell {
             gestureBegan(gesture)
         }
@@ -171,7 +172,7 @@ class MoveCategoryViewController: UIViewController {
         }
     }
     
-    func gestureEnded(_ gesture: UIGestureRecognizer) {
+    fileprivate func gestureEnded(_ gesture: UIGestureRecognizer) {
         if let selectedIndexPath = collectionView?.indexPathForItem(at: gesture.location(in: collectionView)), let cell = collectionView?.cellForItem(at: selectedIndexPath), let cateCell = cell as? CategoryCollectionViewCell, let original = originalIndex, let originalcell = collectionView?.cellForItem(at: original), let oldCell = originalcell as? CategoryCollectionViewCell, !collectStyle.fixItems.contains(selectedIndexPath.item) {
             
             newcell.removeFromSuperview()
@@ -186,7 +187,7 @@ class MoveCategoryViewController: UIViewController {
         }
     }
     
-    func cellSelectAtIndex(cell: CategoryCollectionViewCell) {
+    fileprivate func cellSelectAtIndex(cell: CategoryCollectionViewCell) {
         UIGraphicsBeginImageContextWithOptions(cell.bounds.size, false, 0)
         if let context = UIGraphicsGetCurrentContext() {
             cell.layer.render(in: context)
@@ -210,22 +211,17 @@ class MoveCategoryViewController: UIViewController {
         loadData()
         self.dismissClosure = dismissClosure
         hideFrame = CGRect(x: 0.0, y: -screenHeight, width: showFrame.size.width, height: showFrame.size.height)
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: animateTime) {
             self.view.frame = self.showFrame
-            }, completion: nil)
+        }
         collectionView?.reloadData()
     }
     
     func hidden() {
-        if !hasFinished {
-            delegate?.didFinishWithDatas(datas: data, index: currentIndex, channel: channelData)
-            hasFinished = true
-        }
+        delegate?.didFinishWithDatas(datas: data, index: currentIndex, channel: channelData)
         dismissClosure?()
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: animateTime) {
             self.view.frame = self.hideFrame
-        }) { (_) in
-            self.hasFinished = false
         }
     }
     
@@ -349,7 +345,7 @@ extension MoveCategoryViewController: UICollectionViewDelegate, UICollectionView
             }
             return cell
         case .middleView:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MiddleSelectViewCell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MiddleSelectViewCell.cellIdentifier(), for: indexPath)
             return cell
         }
     }

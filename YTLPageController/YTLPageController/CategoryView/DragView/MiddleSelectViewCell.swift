@@ -73,3 +73,9 @@ enum SelectChannelType {
     case system
     case industry
 }
+
+extension UICollectionViewCell {
+    class func cellIdentifier() -> String {
+        return NSStringFromClass(self)
+    }
+}
